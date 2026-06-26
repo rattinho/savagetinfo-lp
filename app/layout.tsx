@@ -34,9 +34,43 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Savaget INFO — Notebooks, PCs Gamer, Manutenção e Periféricos",
+  metadataBase: new URL("https://savaget.info"),
+
+  title: {
+    default: "Savaget INFO — Loja de Informática | Notebooks, PCs Gamer e Manutenção",
+    template: "%s | Savaget INFO",
+  },
   description:
-    "Savaget INFO: soluções completas de informática. Manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.",
+    "A Savaget INFO é sua loja de informática completa: notebooks, PCs Gamer, periféricos e serviços de manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.",
+
+  icons: {
+    icon:     "/assets/icon.webp",
+    shortcut: "/assets/icon.webp",
+    apple:    "/assets/icon.webp",
+  },
+
+  openGraph: {
+    type:        "website",
+    locale:      "pt_BR",
+    siteName:    "Savaget INFO",
+    title:       "Savaget INFO — Loja de Informática | Notebooks, PCs Gamer e Manutenção",
+    description: "A Savaget INFO é sua loja de informática completa: notebooks, PCs Gamer, periféricos e serviços de manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.",
+    images: [
+      {
+        url:    "/assets/icon.webp",
+        width:  862,
+        height: 600,
+        alt:    "Savaget INFO — Logo",
+      },
+    ],
+  },
+
+  twitter: {
+    card:        "summary",
+    title:       "Savaget INFO — Loja de Informática | Notebooks, PCs Gamer e Manutenção",
+    description: "A Savaget INFO é sua loja de informática completa: notebooks, PCs Gamer, periféricos e serviços de manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.",
+    images:      ["/assets/icon.webp"],
+  },
 };
 
 export default function RootLayout({

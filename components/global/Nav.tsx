@@ -2,9 +2,21 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother);
+
+// Progress dentro do pin onde a animação de entrada já terminou
+// hero não tem pin; sobre tem pin +=500% com phase 1 terminando em ~0.25
+const PIN_PROGRESS: Record<string, number> = {
+  servicos:    0.45,
+  produtos:    0.45,
+  depoimentos: 0.45,
+  sobre:       0.25,
+  contato:     0.60,
+};
 
 const NAV_LINKS = [
   { label: "Início",   href: "#"        },
@@ -15,16 +27,44 @@ const NAV_LINKS = [
 ];
 
 export default function Nav() {
-  const [isMobile, setIsMobile]   = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
   const navRef     = useRef<HTMLElement>(null);
   const logoRef    = useRef<HTMLAnchorElement>(null);
   const deskRef    = useRef<HTMLDivElement>(null);
   const mobileRef  = useRef<HTMLDivElement>(null);
 
-  // Responsive detection
+  const navigate = (href: string) => {
+    const id = href === "#" ? "hero" : href.slice(1);
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const smoother = ScrollSmoother.get();
+    if (!smoother) { el.scrollIntoView({ behavior: "smooth" }); return; }
+
+    // Procura o pin trigger da seção para calcular posição pós-entrada
+    const pinTrigger = ScrollTrigger.getAll().find(
+      t => t.trigger === el && t.vars.pin === true
+    );
+
+    if (pinTrigger) {
+      const progress = PIN_PROGRESS[id] ?? 0.45;
+      smoother.scrollTo(
+        pinTrigger.start + (pinTrigger.end - pinTrigger.start) * progress,
+        true
+      );
+    } else {
+      smoother.scrollTo(el, true, "top top");
+    }
+  };
+
+  // ≥1920 → nav aberto; notebook + mobile → fechado por default
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 760);
+    const check = () => {
+      const w = window.innerWidth;
+      setIsDesktop(w >= 1920);
+      if (w >= 1920) setMenuOpen(false);
+    };
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
@@ -49,7 +89,7 @@ export default function Nav() {
   }, { scope: navRef });
 
   return (
-    <nav ref={navRef} className="fixed top-[clamp(16px,2.2vw,26px)] left-0 right-0 z-50 flex items-start justify-between px-[clamp(16px,3vw,34px)] pointer-events-none">
+    <nav ref={navRef} className="fixed top-3.5 2xl:top-6 left-0 right-0 z-50 flex items-start justify-between px-[clamp(16px,3vw,34px)] pointer-events-none">
 
       {/* Logo */}
       <a
@@ -83,8 +123,8 @@ export default function Nav() {
         </span>
       </a>
 
-      {/* Desktop nav */}
-      {!isMobile && (
+      {/* Desktop nav — visível apenas em ≥1920px */}
+      {isDesktop && (
         <div ref={deskRef} className="pointer-events-auto flex items-center gap-2">
           <div
             className="flex items-center gap-1 p-[7px] rounded-full border border-[rgba(255,255,255,0.1)]"
@@ -99,6 +139,7 @@ export default function Nav() {
               <a
                 key={link.label}
                 href={link.href}
+                onClick={(e) => { e.preventDefault(); navigate(link.href); }}
                 className="font-body font-medium text-[13.5px] text-[rgba(255,255,255,0.72)] px-[14px] py-2 rounded-full transition-[background,color] duration-[180ms] ease-in-out hover:bg-[rgba(46,123,255,0.14)] hover:text-white"
               >
                 {link.label}
@@ -107,6 +148,7 @@ export default function Nav() {
           </div>
           <a
             href="#contato"
+            onClick={(e) => { e.preventDefault(); navigate("#contato"); }}
             className="font-body font-bold text-[13.5px] text-white px-[18px] py-[13px] rounded-full transition-[filter,transform] duration-200 ease-in-out hover:brightness-110 hover:-translate-y-px"
             style={{
               background: "linear-gradient(180deg, #3D87FF, #2E7BFF)",
@@ -118,8 +160,8 @@ export default function Nav() {
         </div>
       )}
 
-      {/* Mobile nav */}
-      {isMobile && (
+      {/* Collapsed nav — notebook (760-1919px) e mobile (<760px) */}
+      {!isDesktop && (
         <div ref={mobileRef} className="pointer-events-auto relative flex flex-col items-end gap-[10px]">
           <button
             onClick={() => setMenuOpen((o) => !o)}
@@ -153,7 +195,7 @@ export default function Nav() {
                 <a
                   key={link.label}
                   href={link.href}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(e) => { e.preventDefault(); navigate(link.href); setMenuOpen(false); }}
                   className="font-body font-medium text-[14.5px] text-[rgba(255,255,255,0.82)] px-[14px] py-3 rounded-[13px] transition-colors duration-[180ms] hover:bg-[rgba(46,123,255,0.12)]"
                 >
                   {link.label}
@@ -161,7 +203,7 @@ export default function Nav() {
               ))}
               <a
                 href="#contato"
-                onClick={() => setMenuOpen(false)}
+                onClick={(e) => { e.preventDefault(); navigate("#contato"); setMenuOpen(false); }}
                 className="mt-[6px] text-center font-body font-bold text-[13.5px] text-white p-3 rounded-[13px]"
                 style={{ background: "linear-gradient(180deg,#3D87FF,#2E7BFF)", boxShadow: "0 0 22px rgba(46,123,255,0.4)" }}
               >

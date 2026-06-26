@@ -6,8 +6,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 
-import SectionBadge from "@/components/global/SectionBadge";
-
 const SERVICES = [
   {
     title: "Manutenção & Reparo",
@@ -159,8 +157,6 @@ export default function ServicesSection() {
 
   return (
     <section id="servicos" className="relative md:mt-[-200vh] z-10 md:min-h-screen flex flex-col items-center justify-center py-20 md:py-25 px-[clamp(20px,5vw,60px)]">
-      <div id="subtitle"><SectionBadge>Nossos Serviços</SectionBadge></div>
-
       <h2
         id="title"
         className="m-0 mb-[clamp(28px,4.5vh,52px)] font-display font-semibold text-white text-center text-balance tracking-[-0.022em] max-w-140"
@@ -169,10 +165,10 @@ export default function ServicesSection() {
         Soluções completas<br />para sua tecnologia
       </h2>
 
-      {(window.innerWidth <= 768 || window.innerWidth >=1400) ? 
+      {/* Grid — mobile (<md) e desktop amplo (≥2xl) */}
       <div
         id="serviceslist"
-        className="grid gap-3.5 w-full max-w-205 "
+        className="grid md:hidden 2xl:grid gap-3.5 w-full max-w-205"
         style={{ gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))" }}
       >
         {SERVICES.map((s) => (
@@ -181,7 +177,8 @@ export default function ServicesSection() {
           </div>
         ))}
       </div>
-      : 
+
+      {/* Swiper — notebook (md a 2xl) */}
       <div id="servicesswiper" className="hidden md:flex 2xl:hidden items-center gap-4 w-full max-w-205">
         <NavArrow direction="prev" onClick={() => swiperRef?.slidePrev()} disabled={isBeginning} />
 
@@ -209,7 +206,6 @@ export default function ServicesSection() {
         </div>
         <NavArrow direction="next" onClick={() => swiperRef?.slideNext()} disabled={isEnd} />
       </div>
-      }
 
     </section>
   );

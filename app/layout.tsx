@@ -3,6 +3,7 @@ import { Space_Grotesk, Manrope, JetBrains_Mono, Science_Gothic } from "next/fon
 import SmoothScroll       from "@/components/global/SmoothScroll";
 import AnimatedBackground from "@/components/global/AnimatedBackground";
 import Nav                from "@/components/global/Nav";
+import SectionNav         from "@/components/global/SectionNav";
 import "./globals.css";
 
 const scienceGothic = Science_Gothic({
@@ -53,7 +54,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `document.documentElement.style.setProperty('--initial-vh',window.innerHeight+'px')` }} />
         <SmoothScroll />
         <AnimatedBackground />
+        <span className="fixed top-0 w-full h-36 lg:h-16 2xl:h-44 backdrop-blur-2xl  mask-t-to-black mask-t-from-transparent z-50">
+        </span>
         <Nav />
+        <SectionNav />
         <div id="smooth-wrapper">
           <div id="smooth-content">
             {children}

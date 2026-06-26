@@ -15,7 +15,6 @@ export default function Home() {
       <TestimonialsSection />
       <WhySavagetSection />
       <CTASection />
-      <Footer />
     </main>
   );
 }

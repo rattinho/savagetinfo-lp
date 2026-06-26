@@ -35,7 +35,7 @@ export default function HeroSection() {
             width={560}
             height={420}
             priority
-            className="block h-auto w-[clamp(160px,80vw,280px)] md:w-[clamp(260px,32vw,420px)] 3xl:w-[clamp(380px,26vw,500px)]"
+            className="block h-auto w-[clamp(160px,80vw,280px)] w-[260px] lg:w-[400px] 2xl:w-[600px] "
           />
         </div>
       </div>

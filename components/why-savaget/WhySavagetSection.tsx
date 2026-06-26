@@ -1,7 +1,6 @@
 'use client'
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import SectionBadge from "@/components/global/SectionBadge";
 
 const STATS = [
   { value: "+5", suffix: "k", label: "Clientes atendidos" },
@@ -53,75 +52,129 @@ const DIFERENCIAIS = [
 export default function WhySavagetSection() {
 
   useGSAP(() => {
-    gsap.set('#sobre > *', { y: 50, opacity: 0 })
+    if (window.innerWidth >= 768) {
+      gsap.set('#sobre #title, #sobre #statslist', { y: 50, opacity: 0 })
+      gsap.set('#sobre #differentialslist > div', { y: 50, opacity: 0 })
 
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: "#sobre",
-        start: "top top",
-        end: "+=300%",
-        pin: true,
-        scrub: true,
-      },
-    })
-      .fromTo('#sobre > *',
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.08, duration: 0.5, ease: "power1.inOut" },
-        0
-      )
-      .fromTo('#sobre #subtitle, #sobre #title, #sobre #statslist, #sobre #differentialslist > div',
-        { y: 0, opacity: 1, filter: "blur(0px)" },
-        { y: -50, scale: 0.8, opacity: 0, filter: "blur(4px)", stagger: 0.08 },
-        0.7
-      )
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: "#sobre",
+          start: "top top",
+          end: "+=500%",
+          pin: true,
+          scrub: true,
+        },
+      })
+        // Fase 1 — título e stats entram
+        .fromTo('#sobre #title',
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.15, ease: "power1.inOut" },
+          0
+        )
+        .fromTo('#sobre #statslist',
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.15, ease: "power1.inOut" },
+          0.06
+        )
+        // Fase 2 — título e stats saem
+        .fromTo('#sobre #title',
+          { y: 0, opacity: 1, filter: "blur(0px)" },
+          { y: -40, opacity: 0, filter: "blur(4px)", duration: 0.12 },
+          0.45
+        )
+        .fromTo('#sobre #statslist',
+          { y: 0, opacity: 1, filter: "blur(0px)" },
+          { y: -40, opacity: 0, filter: "blur(4px)", duration: 0.12 },
+          0.49
+        )
+        // Fase 3 — diferenciais entram
+        .fromTo('#sobre #differentialslist > div',
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, stagger: 0.04, duration: 0.13, ease: "power1.inOut" },
+          0.60
+        )
+        // Fase 4 — diferenciais saem
+        .fromTo('#sobre #differentialslist > div',
+          { y: 0, opacity: 1, filter: "blur(0px)" },
+          { y: -40, opacity: 0, filter: "blur(4px)", stagger: 0.03, duration: 0.1 },
+          0.87
+        )
+    } else {
+      // Mobile fase 1: título + stats
+      gsap.set('#sobre #title, #sobre #statslist > div', { y: 40, opacity: 0 })
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: "#sobre",
+          start: "top 82%",
+          toggleActions: "play none none none",
+        },
+      })
+        .to('#sobre #title, #sobre #statslist > div', { y: 0, opacity: 1, stagger: 0.1, duration: 0.7, ease: "power2.out" })
+
+      // Mobile fase 2: diferenciais entram ao rolar até eles
+      gsap.set('#sobre #differentialslist > div', { y: 40, opacity: 0 })
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: "#differentialslist",
+          start: "top 82%",
+          toggleActions: "play none none none",
+        },
+      })
+        .to('#sobre #differentialslist > div', { y: 0, opacity: 1, stagger: 0.12, duration: 0.7, ease: "power2.out" })
+    }
   }, [])
 
-  return ( 
-    <section id="sobre" className="relative -mt-[200vh] z-10 min-h-screen flex flex-col items-center justify-center py-[110px] px-[clamp(20px,6vw,80px)]">
-      <div id="subtitle"><SectionBadge>Por que a Savaget?</SectionBadge></div>
+  return (
+    <section id="sobre" className="relative md:mt-[-200vh] z-10 md:min-h-screen flex flex-col items-center py-20 md:py-0 px-[clamp(20px,6vw,80px)] md:px-0">
 
-      <h2
-        id="title"
-        className="m-0 mb-[clamp(52px,8vh,96px)] font-display font-semibold text-white text-center text-balance tracking-[-0.022em] max-w-[560px]"
-        style={{ fontSize: "clamp(1.7rem,3.6vw,2.9rem)", lineHeight: 1.08 }}
-      >
-        Tecnologia de confiança,<br />atendimento de verdade
-      </h2>
+      {/* Fase 1 — desktop: centralizada absolutamente. Mobile: fluxo normal. */}
+      <div className="flex flex-col items-center w-full md:absolute md:top-1/2 md:-translate-y-1/2 md:left-0 md:right-0 md:px-[clamp(20px,6vw,80px)]">
+        <h2
+          id="title"
+          className="m-0 mb-[clamp(32px,8vh,96px)] font-display font-semibold text-white text-center text-balance tracking-[-0.022em] max-w-140"
+          style={{ fontSize: "clamp(1.7rem,3.6vw,2.9rem)", lineHeight: 1.08 }}
+        >
+          Tecnologia de confiança,<br />atendimento de verdade
+        </h2>
 
-      <div
-        id="statslist"
-        className="grid gap-px w-full max-w-[860px] rounded-[20px] overflow-hidden mb-[clamp(48px,7vh,84px)] bg-[rgba(125,176,255,0.1)]"
-        style={{ gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))" }}
-      >
-        {STATS.map((s) => (
-          <div key={s.label} className="flex flex-col items-center gap-2 text-center px-7 py-9 bg-page">
-            <span
-              className="font-display font-bold text-white leading-none"
-              style={{ fontSize: "clamp(2rem,4.5vw,3.2rem)", letterSpacing: "-0.03em", textShadow: "0 0 28px rgba(46,123,255,0.4)" }}
+        <div
+          id="statslist"
+          className="grid grid-cols-2 md:grid-cols-4 gap-px w-full max-w-215 rounded-2xl md:rounded-[20px] overflow-hidden bg-[rgba(125,176,255,0.1)]"
+        >
+          {STATS.map((s) => (
+            <div key={s.label} className="flex flex-col items-center gap-1.5 md:gap-2 text-center px-4 py-6 md:px-7 md:py-9 bg-page">
+              <span
+                className="font-display font-bold text-white leading-none"
+                style={{ fontSize: "clamp(1.6rem,4.5vw,3.2rem)", letterSpacing: "-0.03em", textShadow: "0 0 28px rgba(46,123,255,0.4)" }}
+              >
+                {s.value}<span className="text-brand-light">{s.suffix}</span>
+              </span>
+              <span className="font-body text-[11px] md:text-[12.5px] uppercase tracking-[0.04em] text-[rgba(255,255,255,0.5)]">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Fase 2 — desktop: centralizada absolutamente no mesmo ponto. Mobile: empilhada abaixo. */}
+      <div className="flex flex-col items-center w-full mt-12 md:mt-0 md:absolute md:top-1/2 md:-translate-y-1/2 md:left-0 md:right-0 md:px-[clamp(20px,6vw,80px)]">
+        <div id="differentialslist" className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5 w-full max-w-215">
+          {DIFERENCIAIS.map((d) => (
+            <div
+              key={d.title}
+              className="flex items-start gap-3 md:gap-4 p-[16px_14px] md:p-[26px_24px] rounded-[14px] md:rounded-[18px] bg-[rgba(255,255,255,0.025)] border border-[rgba(125,176,255,0.1)] transition-[border-color] duration-300 hover:border-[rgba(125,176,255,0.28)]"
             >
-              {s.value}<span className="text-brand-light">{s.suffix}</span>
-            </span>
-            <span className="font-body text-[12.5px] uppercase tracking-[0.04em] text-[rgba(255,255,255,0.5)]">{s.label}</span>
-          </div>
-        ))}
+              <div className="shrink-0 w-9 h-9 md:w-10 md:h-10 mt-0.5 rounded-[10px] md:rounded-[11px] bg-[rgba(46,123,255,0.1)] border border-[rgba(125,176,255,0.18)] flex items-center justify-center text-[rgba(125,176,255,0.9)]">
+                {d.icon}
+              </div>
+              <div className="flex flex-col gap-1 md:gap-1.5">
+                <h4 className="m-0 font-display font-semibold text-[13.5px] md:text-[15px] text-white">{d.title}</h4>
+                <p className="m-0 font-body text-[12px] md:text-[13px] leading-[1.55] md:leading-[1.6] text-[rgba(255,255,255,0.5)]">{d.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div id="differentialslist" className="grid gap-[14px] w-full max-w-[860px]" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(340px,1fr))" }}>
-        {DIFERENCIAIS.map((d) => (
-          <div
-            key={d.title}
-            className="flex items-start gap-4 p-[26px_24px] rounded-[18px] bg-[rgba(255,255,255,0.025)] border border-[rgba(125,176,255,0.1)] transition-[border-color] duration-300 hover:border-[rgba(125,176,255,0.28)]"
-          >
-            <div className="shrink-0 w-10 h-10 mt-[2px] rounded-[11px] bg-[rgba(46,123,255,0.1)] border border-[rgba(125,176,255,0.18)] flex items-center justify-center text-[rgba(125,176,255,0.9)]">
-              {d.icon}
-            </div>
-            <div className="flex flex-col gap-[6px]">
-              <h4 className="m-0 font-display font-semibold text-[15px] text-white">{d.title}</h4>
-              <p className="m-0 font-body text-[13px] leading-[1.6] text-[rgba(255,255,255,0.5)]">{d.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
     </section>
   );
 }

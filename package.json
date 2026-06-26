@@ -6,12 +6,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "mobile": "next build && next start -H 0.0.0.0",
     "lint": "eslint"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@tailwindcss/postcss": "^4.3.1",
+    "gsap": "^3.15.0",
     "next": "16.2.9",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "swiper": "^12.2.0",
+    "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
     "@types/node": "^20",

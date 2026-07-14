@@ -1,6 +1,7 @@
 'use client'
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { brand } from "@/lib/brand";
 
 const TESTIMONIALS = [
   {
@@ -10,13 +11,13 @@ const TESTIMONIALS = [
     since: "Cliente desde 2022",
   },
   {
-    quote: "Comprei meu setup gamer completo na Savaget. Preço justo, entrega rápida e ainda me ajudaram a montar. Recomendo demais!",
+    quote: `Comprei meu setup gamer completo na ${brand.name}. Preço justo, entrega rápida e ainda me ajudaram a montar. Recomendo demais!`,
     name: "João P.",
     initial: "J",
     since: "Cliente desde 2023",
   },
   {
-    quote: "Precisa de informática, vai na Savaget de olhos fechados. Já uso os serviços deles há anos, tanto pra empresa quanto em casa.",
+    quote: `Precisa de informática, vai na ${brand.name} de olhos fechados. Já uso os serviços deles há anos, tanto pra empresa quanto em casa.`,
     name: "Carla S.",
     initial: "C",
     since: "Cliente desde 2021",
@@ -75,7 +76,7 @@ export default function TestimonialsSection() {
         className="m-0 mb-[clamp(28px,5.5vh,64px)] font-display font-semibold text-white text-center text-balance tracking-[-0.022em] max-w-[560px]"
         style={{ fontSize: "clamp(1.7rem,3.6vw,2.9rem)", lineHeight: 1.08 }}
       >
-        Clientes que confiam<br />na Savaget INFO
+        Clientes que confiam<br />na {brand.name} {brand.complement}
       </h2>
 
       <div id="testimonialslist" className="grid gap-3 md:gap-3.5 w-full max-w-225" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))" }}>

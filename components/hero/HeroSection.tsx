@@ -2,6 +2,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
+import { brand } from "@/lib/brand";
 
 const KEYWORDS = ["Notebooks", "PCs Gamer", "Manutenção", "Periféricos"];
 
@@ -31,7 +32,7 @@ export default function HeroSection() {
         >
           <Image
             src="/assets/devices.png"
-            alt="Dispositivos Savaget INFO"
+            alt={`Dispositivos ${brand.name} ${brand.complement}`}
             width={560}
             height={420}
             priority
@@ -52,7 +53,7 @@ export default function HeroSection() {
             textShadow: "0 0 60px rgba(46,123,255,0.25)",
           }}
         >
-          SAVAGET
+          {brand.name.toUpperCase()}
         </span>
         <span
           className="inline-block font-brand font-bold ml-[0.16em]"
@@ -66,7 +67,7 @@ export default function HeroSection() {
             textShadow: "0 0 80px rgba(46,123,255,0.5)",
           }}
         >
-          INFO
+          {brand.complement.toUpperCase()}
         </span>
       </div>
 

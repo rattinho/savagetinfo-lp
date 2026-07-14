@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useGSAP } from "@gsap/react";
+import { brand } from "@/lib/brand";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother);
 
@@ -95,22 +96,22 @@ export default function Nav() {
       <a
         ref={logoRef}
         href="#"
-        aria-label="Savaget INFO"
+        aria-label={`${brand.name} ${brand.complement}`}
         className="pointer-events-auto inline-flex items-center justify-center no-underline"
       >
-        <span className="relative inline-block leading-none animate-led-flicker" aria-label="SI">
+        <span className="relative inline-block leading-none animate-led-flicker" aria-label={brand.initials}>
           {/* glow — outer halo */}
           <span
             className="absolute inset-0 font-brand font-light text-[52px] tracking-[0.1em] select-none"
             style={{ color: "transparent", WebkitTextStroke: "2px rgba(50,140,255,0.5)", filter: "blur(10px)" }}
             aria-hidden
-          >SI</span>
+          >{brand.initials}</span>
           {/* glow — mid */}
           <span
             className="absolute inset-0 font-brand font-light text-[52px] tracking-[0.1em] select-none"
             style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(100,185,255,0.85)", filter: "blur(4px)" }}
             aria-hidden
-          >SI</span>
+          >{brand.initials}</span>
           {/* front — crisp neon stroke */}
           <span
             className="relative font-brand font-light text-[52px] tracking-[0.1em]"
@@ -119,7 +120,7 @@ export default function Nav() {
               WebkitTextStroke: "1px rgba(180,220,255,1)",
               textShadow: "0 0 6px rgba(100,185,255,0.9)",
             }}
-          >SI</span>
+          >{brand.initials}</span>
         </span>
       </a>
 

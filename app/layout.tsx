@@ -5,6 +5,7 @@ import AnimatedBackground from "@/components/global/AnimatedBackground";
 import Nav                from "@/components/global/Nav";
 import SectionNav         from "@/components/global/SectionNav";
 import "./globals.css";
+import { brand, colorometriaFilter } from "@/lib/brand";
 
 const scienceGothic = Science_Gothic({
   subsets: ["latin"],
@@ -33,15 +34,17 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const brandFull  = `${brand.name} ${brand.complement}`;
+const brandTitle = `${brandFull} — Loja de Informática | Notebooks, PCs Gamer e Manutenção`;
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://savaget.info"),
+  metadataBase: new URL(brand.url),
 
   title: {
-    default: "Savaget INFO — Loja de Informática | Notebooks, PCs Gamer e Manutenção",
-    template: "%s | Savaget INFO",
+    default:  brandTitle,
+    template: `%s | ${brandFull}`,
   },
-  description:
-    "A Savaget INFO é sua loja de informática completa: notebooks, PCs Gamer, periféricos e serviços de manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.",
+  description: `A ${brandFull} é sua loja de informática completa: notebooks, PCs Gamer, periféricos e serviços de manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.`,
 
   icons: {
     icon:     "/assets/icon.webp",
@@ -52,23 +55,23 @@ export const metadata: Metadata = {
   openGraph: {
     type:        "website",
     locale:      "pt_BR",
-    siteName:    "Savaget INFO",
-    title:       "Savaget INFO — Loja de Informática | Notebooks, PCs Gamer e Manutenção",
-    description: "A Savaget INFO é sua loja de informática completa: notebooks, PCs Gamer, periféricos e serviços de manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.",
+    siteName:    brandFull,
+    title:       brandTitle,
+    description: `A ${brandFull} é sua loja de informática completa: notebooks, PCs Gamer, periféricos e serviços de manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.`,
     images: [
       {
         url:    "/assets/icon.webp",
         width:  862,
         height: 600,
-        alt:    "Savaget INFO — Logo",
+        alt:    `${brandFull} — Logo`,
       },
     ],
   },
 
   twitter: {
     card:        "summary",
-    title:       "Savaget INFO — Loja de Informática | Notebooks, PCs Gamer e Manutenção",
-    description: "A Savaget INFO é sua loja de informática completa: notebooks, PCs Gamer, periféricos e serviços de manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.",
+    title:       brandTitle,
+    description: `A ${brandFull} é sua loja de informática completa: notebooks, PCs Gamer, periféricos e serviços de manutenção, formatação, redes, suporte técnico, upgrade de hardware e recuperação de dados.`,
     images:      ["/assets/icon.webp"],
   },
 };
@@ -85,6 +88,11 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="bg-page">
+      <div
+        id="colorometria"
+        className="fixed top-0 left-0 w-screen h-screen z-[9999] pointer-events-none"
+        style={{ backdropFilter: colorometriaFilter, WebkitBackdropFilter: colorometriaFilter }}
+      />
         <script dangerouslySetInnerHTML={{ __html: `document.documentElement.style.setProperty('--initial-vh',window.innerHeight+'px')` }} />
         <SmoothScroll />
         <AnimatedBackground />

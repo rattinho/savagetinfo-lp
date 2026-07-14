@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { brand } from "@/lib/brand";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -264,8 +265,8 @@ export default function AnimatedBackground() {
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 52%, rgba(0,0,0,0.34) 100%)" }} />
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 95% 86% at 50% 46%, transparent 52%, rgba(0,0,0,0.45) 100%)" }} />
 
-      <Accent side="left"  label="Est. 2020"    rotate className="hidden md:flex" />
-      <Accent side="right" label="Savaget INFO"         className="hidden md:flex" />
+      <Accent side="left"  label={`Est. ${brand.founded}`} rotate className="hidden md:flex" />
+      <Accent side="right" label={`${brand.name} ${brand.complement}`} className="hidden md:flex" />
     </div>
   );
 }

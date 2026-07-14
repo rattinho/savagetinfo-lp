@@ -5,15 +5,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import 'swiper/css'
+import { brand } from '@/lib/brand'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const SECTIONS = [
-  { id: 'hero',        label: 'SAVAGETINFO'          },
+  { id: 'hero',        label: `${brand.name.toUpperCase()}${brand.complement.toUpperCase()}` },
   { id: 'servicos',    label: 'Nossos Serviços'       },
   { id: 'produtos',    label: 'Nossos Produtos'       },
   { id: 'depoimentos', label: 'O que dizem sobre nós' },
-  { id: 'sobre',       label: 'Por que a Savaget?'    },
+  { id: 'sobre',       label: `Por que a ${brand.name}?` },
   { id: 'contato',     label: 'Fale com a gente'      },
 ]
 
